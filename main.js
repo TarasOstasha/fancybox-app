@@ -14,12 +14,14 @@ let gallery = async () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     if( scrollTop + clientHeight >= scrollHeight ) {
       countImg += 1;
-      console.log(firstLoaded)
       start = countImg * page;
+      console.log(countImg, start)
       if(result.length <= start) return
       imgsArrayLength(result,start,page) // cut array imgs
       createDom(); // render DOM
+
       let images = [...document.querySelectorAll('.wrapper a img')]; // get all new images in DOM
+      let observer = new IntersectionObserver(onIntersection, interactSettings);
       images.forEach(image => observer.observe(image)); // make new animation
     }
     //console.log(scrollTop,"-scrollTop",clientHeight,"-clientHeight",scrollHeight, "-scrollHeight")
@@ -73,7 +75,7 @@ let gallery = async () => {
 let images = [...document.querySelectorAll('.wrapper a img')]
 
 const interactSettings = {
-  root: document.querySelector('.center'),
+  root: document.querySelector('.mainWrapperDiv'),
   rootMargin: '0px 0px 200px 0px'
 }
 
